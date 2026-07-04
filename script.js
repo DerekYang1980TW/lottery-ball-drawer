@@ -80,6 +80,8 @@ const machine = {
   agitation: 0,     // 0 = 靜置微動，1 = 抽獎攪動
   rafId: null,
   lastT: 0,
+  lastRafAt: 0,     // 最近一次 rAF 觸發時間
+  worker: null,     // 備援計時器（嵌入式面板會暫停 rAF，Worker 計時不受影響）
 
   init() {
     this.ctx = this.canvas.getContext("2d");
@@ -166,22 +168,42 @@ const machine = {
     });
   },
 
+  tick(source) {
+    const now = performance.now();
+    // rAF 正常運作時忽略 Worker 的 tick，避免雙重驅動
+    if (source === "worker" && now - this.lastRafAt < 120) return;
+    const dt = Math.min((now - this.lastT) / 1000, 0.05);
+    this.lastT = now;
+    this.step(dt);
+    this.render();
+  },
+
   start() {
     if (this.rafId) return;
     this.lastT = performance.now();
     const loop = (t) => {
-      const dt = Math.min((t - this.lastT) / 1000, 0.05);
-      this.lastT = t;
-      this.step(dt);
-      this.render();
+      this.lastRafAt = t;
+      this.tick("raf");
       this.rafId = requestAnimationFrame(loop);
     };
     this.rafId = requestAnimationFrame(loop);
+
+    if (!this.worker) {
+      const src = "setInterval(() => postMessage(0), 16);";
+      this.worker = new Worker(
+        URL.createObjectURL(new Blob([src], { type: "text/javascript" }))
+      );
+      this.worker.onmessage = () => this.tick("worker");
+    }
   },
 
   stop() {
     if (this.rafId) cancelAnimationFrame(this.rafId);
     this.rafId = null;
+    if (this.worker) {
+      this.worker.terminate();
+      this.worker = null;
+    }
   },
 
   step(dt) {
