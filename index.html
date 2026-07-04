@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>樂透抽球程式</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎱 樂透抽球程式</h1>
+
+    <!-- 設定區 -->
+    <section class="panel" id="setup-panel">
+      <h2>抽獎設定</h2>
+      <div class="setup-form">
+        <label>
+          號碼球總數
+          <input type="number" id="total-balls" min="1" max="999" value="49">
+        </label>
+        <label>
+          每次抽出顆數
+          <input type="number" id="draw-count" min="1" max="999" value="1">
+        </label>
+        <button id="start-btn" class="btn btn-primary">開始抽獎</button>
+      </div>
+      <p class="error-msg hidden" id="setup-error"></p>
+      <p class="hint">號碼球會產生 1 ~ 總數 的號碼</p>
+    </section>
+
+    <!-- 抽獎區 -->
+    <section class="panel hidden" id="draw-panel">
+      <div class="draw-header">
+        <h2>抽獎進行中</h2>
+        <div class="status">
+          剩餘 <span id="remaining-count">0</span> 顆 /
+          已抽 <span id="drawn-count">0</span> 顆
+        </div>
+      </div>
+
+      <!-- 最新抽出的球 -->
+      <div class="latest-draw" id="latest-draw"></div>
+
+      <div class="draw-actions">
+        <button id="draw-btn" class="btn btn-primary btn-big">抽球！</button>
+        <button id="reset-btn" class="btn btn-secondary">重新開始</button>
+      </div>
+
+      <!-- 球池顯示 -->
+      <h3>球池狀態</h3>
+      <div class="ball-pool" id="ball-pool"></div>
+    </section>
+
+    <!-- 記錄區 -->
+    <section class="panel hidden" id="history-panel">
+      <div class="history-header">
+        <h2>抽獎記錄</h2>
+        <button id="clear-history-btn" class="btn btn-secondary btn-small">清除記錄</button>
+      </div>
+      <ol class="history-list" id="history-list"></ol>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

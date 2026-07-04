@@ -1,0 +1,316 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  background: linear-gradient(135deg, #1a2a4a 0%, #2d1b4e 100%);
+  min-height: 100vh;
+  color: #333;
+  padding: 24px 16px;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.panel h2 {
+  margin-bottom: 16px;
+  color: #2d1b4e;
+}
+
+.panel h3 {
+  margin: 20px 0 12px;
+  color: #2d1b4e;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ── 設定區 ── */
+.setup-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.setup-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  color: #444;
+}
+
+.setup-form input {
+  width: 130px;
+  padding: 10px 12px;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.setup-form input:focus {
+  outline: none;
+  border-color: #6c3fc5;
+}
+
+.hint {
+  margin-top: 12px;
+  color: #888;
+  font-size: 14px;
+}
+
+.error-msg {
+  margin-top: 12px;
+  color: #d32f2f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* 二段式確認：按第一下變紅，再按一下才執行 */
+.btn-confirming {
+  background: #d32f2f !important;
+  color: #fff !important;
+}
+
+/* ── 按鈕 ── */
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.2s, opacity 0.2s;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #7b4fd8, #5a2ea6);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(108, 63, 197, 0.4);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 16px rgba(108, 63, 197, 0.6);
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: #eee;
+  color: #555;
+}
+
+.btn-secondary:hover {
+  background: #ddd;
+}
+
+.btn-big {
+  font-size: 22px;
+  padding: 14px 48px;
+}
+
+.btn-small {
+  font-size: 13px;
+  padding: 6px 14px;
+}
+
+/* ── 抽獎區 ── */
+.draw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.status {
+  color: #666;
+  font-size: 15px;
+}
+
+.status span {
+  font-weight: 800;
+  color: #5a2ea6;
+  font-size: 18px;
+}
+
+.draw-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin: 8px 0 4px;
+  flex-wrap: wrap;
+}
+
+/* 最新抽出的大球 */
+.latest-draw {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  min-height: 80px;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.latest-draw .placeholder {
+  color: #aaa;
+  font-size: 15px;
+}
+
+.big-ball {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  background: radial-gradient(circle at 30% 30%, #ff9a56, #e0392b);
+  box-shadow: 0 6px 16px rgba(224, 57, 43, 0.45),
+    inset -4px -6px 10px rgba(0, 0, 0, 0.2);
+  animation: pop-in 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+
+.big-ball:nth-child(2) { animation-delay: 0.15s; }
+.big-ball:nth-child(3) { animation-delay: 0.3s; }
+.big-ball:nth-child(4) { animation-delay: 0.45s; }
+.big-ball:nth-child(5) { animation-delay: 0.6s; }
+.big-ball:nth-child(6) { animation-delay: 0.75s; }
+.big-ball:nth-child(7) { animation-delay: 0.9s; }
+.big-ball:nth-child(8) { animation-delay: 1.05s; }
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0) translateY(-40px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ── 球池 ── */
+.ball-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.small-ball {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: radial-gradient(circle at 30% 30%, #5b8def, #2d55b0);
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.small-ball.drawn {
+  background: radial-gradient(circle at 30% 30%, #ccc, #999);
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+/* ── 記錄區 ── */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.history-header h2 {
+  margin-bottom: 0;
+}
+
+.history-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-list li {
+  background: #f6f4fb;
+  border-left: 4px solid #7b4fd8;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.history-round {
+  font-weight: 700;
+  color: #5a2ea6;
+  margin-right: 10px;
+}
+
+.history-numbers {
+  font-size: 18px;
+  font-weight: 800;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.history-time {
+  color: #999;
+  font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .big-ball {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+
+  .small-ball {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+}
